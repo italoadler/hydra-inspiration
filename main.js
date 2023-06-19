@@ -1,6 +1,10 @@
  import './global.js'
- import Hydra from 'hydra-synth';
- import * as Tone from 'tone';
+//  import Hydra from 'hydra-synth';
+//  import * as Tone from 'tone';
+
+
+
+ 
  // Get a reference to the canvas element
  const canvas = document.getElementById('hydra-canvas');
     
@@ -15,7 +19,7 @@
  
  // Add an event listener to resize the canvas when the window size changes
  window.addEventListener('resize', fullscreenCanvas);
- 
+
  const synth = new Tone.PolySynth(Tone.Synth, {
   volume: -10,
   envelope: {
@@ -47,7 +51,7 @@ Tone.Transport.scheduleRepeat((time) => {
   synth.triggerAttackRelease(note, duration, time, velocity);
 
   Tone.Draw.schedule(() => {
-    const hue = Math.random() * 360; // Random hue between 0 and 360
+    const hue = Math.random() * 128 // Random hue between 0 and 360
     const color = `hsl(${hue}, 100%, 50%)`;
 
     document.body.style.backgroundColor = color; // Update background color
@@ -56,7 +60,10 @@ Tone.Transport.scheduleRepeat((time) => {
 
 Tone.Transport.start();
 
-window.onload = startHydra;
+document.addEventListener('DOMContentLoaded', (event) => {
+    startHydra();
+});
+
 
 function startHydra() {
   const hydra = new Hydra();
@@ -73,11 +80,11 @@ function startHydra() {
     .repeat(2, 1)
     .rotate(0.1)
     .scale(() => Math.random() * 2 + 1)
-    .modulate(osc(0.))
+    .modulate(osc(0.2))
     .out();
 
   // Use the mapping textures to vary colors and velocity
-  osc(10)
+  osc(256, 0.1, 0.8)
     .color(() => colorMap)
     .rotate(0.8)
     .kaleid(5) 
